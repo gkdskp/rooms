@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 // Loading environment variables using dotenv
 // Make sure you an .env file at project root
@@ -19,6 +20,9 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json())
 
+app.get('/docs', (req, res) => {
+	res.sendFile(path.join(__dirname, 'docs/index.html'));
+});
 app.use('/', mainRouter);
 
 const port = process.env.PORT || 4000;

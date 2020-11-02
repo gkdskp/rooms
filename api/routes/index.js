@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const authRouter = require('./auth');
+const wardenRouter = require('./warden');
+const {WardenMiddleware} = require('../middlewares');
 
 /**
  * @api {get} / Test
@@ -15,7 +17,6 @@ router.get('/', (req, res) => {
 });
 
 router.use('/auth', authRouter);
-
-
+router.use('/warden', WardenMiddleware, wardenRouter);
 
 module.exports = router;

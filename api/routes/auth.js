@@ -14,7 +14,7 @@ const AuthController = require('../endpoints/auth');
  * @apiSuccess (200) {String} access_token
  * 
  * @apiError EmailAlreadyExists The <code>email</code> already exists
- * @apiError InvalidParmas The params used is invalid
+ * @apiError InvalidRequest The params used is invalid
  * @apiError UnknownError Unknown error occured
  */
 router.post('/register', AuthController.register);
@@ -29,7 +29,7 @@ router.post('/register', AuthController.register);
  * 
  * @apiSuccess (200) {String} access_token
  * 
- * @apiError InvalidParams The params used is invalid
+ * @apiError InvalidRequest The params used is invalid
  * @apiError InvalidEmail The email used does not exist in database
  * @apiError WrongPassword The email and password does not match
  * @apiError UnknownError Unknown error occured

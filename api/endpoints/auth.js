@@ -6,10 +6,10 @@ const SALT_ROUNDS = 10;
 const AuthController = {};
 
 AuthController.register = (req, res) => {
-	const { email, full_name, password, join_date } = req.body;
+	let { email, full_name, password, join_date } = req.body;
 
 	if(! email || ! full_name || ! password || ! join_date) {
-		res.status(400).json({"error": "InvalidParams"});
+		res.status(400).json({"error": "InvalidRequest"});
 		return;
 	}
 
@@ -43,7 +43,7 @@ AuthController.login = (req, res) => {
 	const { email, password } = req.body;
 
 	if(! email || ! password) {
-		res.status(400).json({"error": "InvalidParams"});
+		res.status(400).json({"error": "InvalidRequest"});
 		return;
 	}
 
