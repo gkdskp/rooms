@@ -33,6 +33,10 @@ module.exports = sequelize => {
 		updated_at: {
 			type: Sequelize.DATE(3),
 			defaultValue: Sequelize.literal('CURRENT_TIMESTAMP(3)'),	
+		},
+		utype: {
+			type: Sequelize.INTEGER,
+			allowNull: false
 		}
 	});
 

@@ -1,0 +1,75 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"); */
+
+* {
+  font-family: "Inter";
+  padding: 0;
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 500;
+}
+
+.container-fluid {
+  padding: 0 !important;
+}
+
+.main-container {
+  padding: 30px 15px;
+}
+
+.navbar {
+  display: flex;
+  align-content: flex-start;
+}
+
+
+.navbar .nav-link {
+	padding: 12px 40px !important; 
+	width: 100%;
+}
+
+.navbar .nav-link.active {
+	background: #007bff;
+	color: #ffffff !important;
+	border-radius: 20px;
+}
+
+@media only screen and (min-width: 992px) {	
+	.navbar {
+		position: fixed;
+		min-height: 100vh !important;
+		flex-flow: column;
+	}
+
+	.navbar-collapse {
+		flex-grow: unset;
+		-webkit-flex-grow: unset;
+	}
+
+	.profile-container {
+		flex-direction: row;
+		display: flex;
+	}
+}
+
+form label {
+	font-weight: bold;
+}
+.rce-mbox-photo--img {
+	overflow: scroll;
+}
+
+.rce-mbox-photo--img img {
+	max-width: 800px;
+}
+
+.rce-mbox-time {
+	position: relative !important;
+}
+
+.rce-mbox-time-block {
+	background: darkgreen;
+}
