@@ -70,6 +70,7 @@ export default function Fee() {
 
 	return (
 		<MainLayout>
+			<h1>Due Fees</h1>
 			<CardColumns>
 				{DUE_FEE.map(due_fees => (
 					<FeeCard fee={due_fees} />

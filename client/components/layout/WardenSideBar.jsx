@@ -14,7 +14,7 @@ import {
   DoorClosed,
 } from "react-bootstrap-icons";
 
-export default function SideBar() {
+export default function WardenSideBar() {
 //   const [authState, authDispatch] = useContext(AuthContext);
   const { pathname } = useRouter();
 
@@ -43,9 +43,9 @@ export default function SideBar() {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto mt-lg-5 flex-lg-column">
-          <Link href="/fee/" passHref>
-            <Nav.Link active={isActive("/fee")}>
-              <Person size={18} className="mr-4" /> Fee
+          <Link href="/student/" passHref>
+            <Nav.Link active={isActive("/student")}>
+              <Person size={18} className="mr-4" /> Students
             </Nav.Link>
           </Link>
           <Link href="/leave/" passHref>

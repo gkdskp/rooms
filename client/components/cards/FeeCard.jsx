@@ -6,7 +6,7 @@ export default function FeeCard({ fee }) {
     <Card style={{ textAlign: "center" }}>
       <Card.Header style={{ fontWeight: "bold" }}>{fee.title}</Card.Header>
       <Card.Body>
-        <Card.Title style={{ fontSize: 40 }}>{fee.amount}</Card.Title>
+        <Card.Title style={{ fontSize: 40 }}>₹ {fee.amount}</Card.Title>
         <Button variant="primary">Pay now</Button>
       </Card.Body>
       <Card.Footer>
