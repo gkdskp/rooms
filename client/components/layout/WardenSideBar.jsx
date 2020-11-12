@@ -48,13 +48,23 @@ export default function WardenSideBar() {
               <Person size={18} className="mr-4" /> Students
             </Nav.Link>
           </Link>
-          <Link href="/leave/" passHref>
-            <Nav.Link active={isActive("/leave")}>
+          <Link href="/room/" passHref>
+            <Nav.Link active={isActive("/room")}>
+              <Person size={18} className="mr-4" /> Rooms
+            </Nav.Link>
+          </Link>
+          <Link href="/warden/leave/" passHref>
+            <Nav.Link active={isActive("/warden/leave")}>
               <PersonCheck size={18} className="mr-4" /> Leave
             </Nav.Link>
           </Link>
-          <Link href="/complaint/" passHref>
-            <Nav.Link active={isActive("/complaint")}>
+          <Link href="/warden/fee/" passHref>
+            <Nav.Link active={isActive("/warden/fee")}>
+              <PersonCheck size={18} className="mr-4" /> Fee
+            </Nav.Link>
+          </Link>
+          <Link href="/warden/complaint/" passHref>
+            <Nav.Link active={isActive("/warden/complaint")}>
               <Question size={18} className="mr-4" /> Complaints
             </Nav.Link>
           </Link>
