@@ -19,5 +19,12 @@ module.exports = sequelize => {
 		}
 	});
 
+	Fee.associate = (models) => {
+		models.fee.belongsToMany(models.Student, {
+			through: models.Paid,
+			as: 'paid_students'
+		});
+	}
+
 	return Fee;
 };

@@ -5,67 +5,59 @@ const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10;
 const AuthController = {};
 
-AuthController.register = (req, res) => {
-	let { email, full_name, password, join_date } = req.body;
+// AuthController.register = (req, res) => {
+// 	let { email, full_name, password, join_date } = req.body;
 
-	if(! email || ! full_name || ! password || ! join_date) {
-		res.status(400).json({"error": "InvalidRequest"});
-		return;
-	}
+// 	if (!email || !full_name || !password || !join_date) {
+// 		res.status(400).json({ "error": "InvalidRequest" });
+// 		return;
+// 	}
 
-	bcrypt.hash(password, SALT_ROUNDS, (err, hash) => {
-		if(err) {
-			res.status(400).json({"error": "UnknownError"});
-			return;
-		}
+// 	bcrypt.hash(password, SALT_ROUNDS, (err, hash) => {
+// 		if (err) {
+// 			res.status(400).json({ "error": "UnknownError" });
+// 			return;
+// 		}
 
-		password = hash;
-	});
-	
-	db.user.findOrCreate({
-		where: { email },
-		defaults: { email, full_name, password, join_date }
-	}).then(([user, created]) => {
-		if(! created) {
-			res.status(409).json({"error": "EmailAlreadyExists"});
-			return;
-		}
+// 		password = hash;
+// 	});
 
-		const access_token = jwt.sign({id: user.id}, process.env.JWT_SECRET);
-		res.status(200).json({ access_token });
-	}).catch((_) => {
-		console.error(_);
-		res.status(400).json({"error": "UnknownError"});
-	});
-}
+// 	db.User.findOrCreate({
+// 		where: { email },
+// 		defaults: { email, full_name, password, join_date }
+// 	}).then(([User, created]) => {
+// 		if (!created) {
+// 			res.status(409).json({ "error": "EmailAlreadyExists" });
+// 			return;
+// 		}
+
+// 		const access_token = jwt.sign({ id: User.id }, process.env.JWT_SECRET);
+// 		res.status(200).json({ access_token });
+// 	}).catch((_) => {
+// 		console.error(_);
+// 		res.status(400).json({ "error": "UnknownError" });
+// 	});
+// }
 
 AuthController.login = (req, res) => {
 	const { email, password } = req.body;
 
-	if(! email || ! password) {
-		res.status(400).json({"error": "InvalidRequest"});
+	if (!email || !password) {
+		res.status(400).json({ "error": "InvalidRequest" });
 		return;
 	}
 
-	db.user.findOne({where: {email: email}}).then(user => {
-		if(! user) {
-			res.status(403).json({"error": "InvalidEmail"});
+	db.User.findOne({ where: { email: email, password } }).then(User => {
+		if (!User) {
+			res.status(403).json({ "error": "InvalidEmail" });
 			return;
 		}
+		const access_token = jwt.sign(
+			{ id: User.id },
+			process.env.JWT_SECRET
+		);
 
-		bcrypt.compare(password, user.password, (err, result) => {
-			if(! result || err) {
-				res.status(403).json({"error": "WrongPassword"});
-				return;
-			}
-
-			const access_token = jwt.sign(
-				{id: user.id}, 
-				process.env.JWT_SECRET
-			);
-	
-			res.status(200).json({access_token});
-		});
+		res.status(200).json({ access_token });
 	});
 }
 

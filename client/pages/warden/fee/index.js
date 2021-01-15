@@ -3,49 +3,33 @@ import WardenFeeTable from "../../../components/table/WardenFeeTable";
 import Button from "react-bootstrap/Button";
 import Link from "next/link";
 import {Check, Pencil} from "react-bootstrap-icons";
+import {useState, useEffect} from "react";
 
 export default function Fee() {
-	const PAID_FEE = [
-		{
-			amount: 2500,
-			title: "Mess Bill",
-			due_at: "20-10-2020",
-			group: "MTech Students"
-		},
-		{
-			amount: 2500,
-			title: "Mess Bill",
-			due_at: "20-10-2020",
-			group: "All"
-		},
-		{
-			amount: 2500,
-			title: "Mess Bill",
-			due_at: "20-10-2020",
-			group: "Custom"
-		},
-		{
-			amount: 2500,
-			title: "Mess Bill",
-			due_at: "20-10-2020",
-			group: "All"
-		},
-	];
+	const [fees, setFees] = useState([]);
+
+	useEffect(() => {
+		fetch('http://localhost:4000/fee/all', { method: "POST" })
+			.then(res => res.json())
+			.then(json => setFees(json));
+	} ,[])
+
+	const refresh = () => {
+		fetch('http://localhost:4000/fee/all', { method: "POST" })
+			.then(res => res.json())
+			.then(json => setFees(json));
+	}
 
 	return (
 		<MainLayout>
 			<h1>Fees</h1>
-			<Link href="/leave/new">
+			<Link href="/warden/fee/add">
 					<Button variant="primary" className="mb-3" type="submit">
 						<Check size={18} /> Add New Fee
               </Button>
-				</Link>&nbsp;&nbsp;&nbsp;&nbsp;
-				<Link href="/leave/new">
-					<Button variant="primary" className="mb-3" type="submit">
-						<Pencil size={18} /> Edit Student Gropus
-              </Button>
-				</Link>
-			<WardenFeeTable paid_fee={PAID_FEE} count={20} offset={0} />
+				</Link>&nbsp;&nbsp;
+			<WardenFeeTable paid_fee={fees} count={20} refresh={refresh} offset={0} />
+
 		</MainLayout>
 	);
 }

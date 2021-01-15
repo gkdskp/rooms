@@ -2,7 +2,7 @@ import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 import { ArrowDown, Check, X } from "react-bootstrap-icons";
 
-export default function LeaveTable({ leaves, count, offset, setOffset }) {
+export default function LeaveTable({ leaves, count, offset, setOffset, accept }) {
   const LABELS = ["applicant", "reason", "applied_at", "from", "to"];
   const STATUS_COLORS = {
     Accepted: "green",
@@ -30,8 +30,8 @@ export default function LeaveTable({ leaves, count, offset, setOffset }) {
                 <td key={`${leave.reason} ${label}`}>{leave[label]}</td>
               ))}
               <td style={{fontWeight: "bold"}}>{leave.status == "Waiting Response" ? <>
-				<Check /> Accept &nbsp;&nbsp;&nbsp;&nbsp;
-				<X /> Decline
+				<Check onClick={() => accept(1, leave.id)}/> Accept &nbsp;&nbsp;&nbsp;&nbsp;
+				<X onClick={() => accept(2, leave.id)}/> Decline
 			  </> : <p>{leave.status}</p>}</td>
             </tr>
           ))}
@@ -39,7 +39,7 @@ export default function LeaveTable({ leaves, count, offset, setOffset }) {
       </Table>
 
       <Pagination size="md">
-        {Array.from(Array(Math.floor(count / 5)).keys()).map((index) => (
+        {Array.from(Array(Math.floor(count / 20)).keys()).map((index) => (
           <Pagination.Item
             key={index}
             active={index == offset}

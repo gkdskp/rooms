@@ -3,7 +3,7 @@ import Pagination from "react-bootstrap/Pagination";
 import {ArrowDown} from "react-bootstrap-icons";
 
 export default function PaidFeeTable({ paid_fee, count, offset, setOffset }) {
-  const LABELS = ["title", "amount", "paid_at"];
+  const LABELS = ["title", "fee", "paid_at"];
   console.log(paid_fee);
 
   return (
@@ -33,7 +33,7 @@ export default function PaidFeeTable({ paid_fee, count, offset, setOffset }) {
 
 
       <Pagination size="md">
-        {Array.from(Array(Math.floor(count / 5)).keys()).map((index) => (
+        {Array.from(Array(Math.floor(count / 20)).keys()).map((index) => (
           <Pagination.Item
             key={index}
             active={index == offset}

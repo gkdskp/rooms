@@ -37,7 +37,7 @@ export default function LeaveTable({ leaves, count, offset, setOffset }) {
 
 
       <Pagination size="md">
-        {Array.from(Array(Math.floor(count / 5)).keys()).map((index) => (
+        {Array.from(Array(Math.floor(count / 20)).keys()).map((index) => (
           <Pagination.Item
             key={index}
             active={index == offset}

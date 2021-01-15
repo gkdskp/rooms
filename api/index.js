@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const cors = require('cors');
 // Loading environment variables using dotenv
 // Make sure you an .env file at project root
 if(require('dotenv').config({
@@ -19,7 +19,10 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+app.use(cors());
+
 app.use('/', mainRouter);
+app.use('/docs', express.static('docs'));
 
 const port = process.env.PORT || 4000;
 let server;

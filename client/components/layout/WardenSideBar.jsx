@@ -63,11 +63,6 @@ export default function WardenSideBar() {
               <PersonCheck size={18} className="mr-4" /> Fee
             </Nav.Link>
           </Link>
-          <Link href="/warden/complaint/" passHref>
-            <Nav.Link active={isActive("/warden/complaint")}>
-              <Question size={18} className="mr-4" /> Complaints
-            </Nav.Link>
-          </Link>
           <hr className="mt-5" />
           <Nav.Link onClick={logOut}>
             <DoorClosed size={18} className="mr-4" /> Log out

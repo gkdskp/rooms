@@ -4,67 +4,93 @@ import MainLayout from '../../../components/layout/MainLayout';
 import WardenLeaveTable from '../../../components/table/WardenLeaveTable';
 import Button from 'react-bootstrap/Button';
 import { Plus } from 'react-bootstrap-icons';
+import { useEffect, useState } from 'react';
 
 export default function Leave() {
-	const leaves = {
-		count: 20,
-		rows: [
-			{
-				applicant: "Student 1",
-				reason: "Going Home",
-				applied_at: "10/10/2020",
-				from: "22/10/2020",
-				to: "24/10/2020",
-				status: 2
-			},
-			{
-				applicant: "Student 2",
-				reason: "Going Home",
-				applied_at: "10/10/2020",
-				from: "22/10/2020",
-				to: "24/10/2020",
-				status: 2
-			},
-			{
-				applicant: "Student 3",
-				reason: "Going Home",
-				applied_at: "10/10/2020",
-				from: "22/10/2020",
-				to: "24/10/2020",
-				status: 2
-			},
-			{
-				applicant: "Student 4",
-				reason: "Going Home",
-				applied_at: "10/10/2020",
-				from: "22/10/2020",
-				to: "24/10/2020",
-				status: 0
-			},
-			{
-				applicant: "Student 5",
-				reason: "Going Home",
-				applied_at: "10/10/2020",
-				from: "22/10/2020",
-				to: "24/10/2020",
-				status: 1
-			}
-		].map(leave => {
-			leave.status = leave.status == 0 ? "Accepted": leave.status == 1? "Declined": "Waiting Response";
-			return leave;
-		}),
+	const [leaves, setLeaves] = useState({
+		count: 0,
+		rows: []
+	});
+
+	const status = ["Waiting Response", "Accepted", "Rejected"]
+
+	useEffect(() => {
+		fetch('http://localhost:4000/leave/all', { method: "POST" })
+			.then(res => res.json())
+			.then(json => {
+				json = json.map((json) => {
+					json.status = status[json.status]
+					json.applied_at = json.createdAt
+					json.applicant = json.Student?.User?.full_name
+					return json
+				})
+				setLeaves({
+					count: json.length,
+					rows: json
+				})
+			})
+	}, []);
+
+	const accept = (status, id) => {
+		if (status == 1) {
+			fetch(`http://localhost:4000/leave/${id}/accept`, { method: "POST" })
+				.then(res => res.json)
+				.then(json => {
+					if (json.message == "Success") {
+						alert("Success");
+						fetch('http://localhost:4000/leave/all', { method: "POST" })
+							.then(res => res.json())
+							.then(json => {
+								json = json.map((json) => {
+									json.status = status[json.status]
+									json.applied_at = json.createdAt
+									return json
+								})
+								setLeaves({
+									count: json.length,
+									rows: json
+								})
+							})
+					} else {
+						alert("Failed");
+					}
+				})
+		} else {
+			fetch(`http://localhost:4000/leave/${id}/decline`, { method: "POST" })
+				.then(res => res.json)
+				.then(json => {
+					if (json.message == "Success") {
+						alert("Success");
+						fetch('http://localhost:4000/leave/all', { method: "POST" })
+							.then(res => res.json())
+							.then(json => {
+								json = json.map((json) => {
+									json.status = status[json.status]
+									json.applied_at = json.createdAt
+									return json
+								})
+								setLeaves({
+									count: json.length,
+									rows: json
+								})
+							})
+					} else {
+						alert("Failed");
+					}
+				})
+		}
 	}
 
 	return (
 		<div>
-		<Head>
-			<title>Leave | BigBroAdmin</title>
-			<link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"></link>
-		</Head>
-		<MainLayout>
-			<h1 className="my-3">Leave</h1>
-			<WardenLeaveTable leaves={leaves.rows} count={leaves.count} />
-		</MainLayout>
+			<Head>
+				<title>Leave | BigBroAdmin</title>
+				<link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"></link>
+			</Head>
+			<MainLayout>
+				<h1 className="my-3">Leave</h1>
+				<WardenLeaveTable leaves={leaves.rows} count={leaves.count} accept={accept} />
+			</MainLayout>
 		</div>
 	)
 }

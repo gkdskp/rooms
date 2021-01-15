@@ -53,11 +53,6 @@ export default function SideBar() {
               <PersonCheck size={18} className="mr-4" /> Leave
             </Nav.Link>
           </Link>
-          <Link href="/complaint/" passHref>
-            <Nav.Link active={isActive("/complaint")}>
-              <Question size={18} className="mr-4" /> Complaints
-            </Nav.Link>
-          </Link>
           <hr className="mt-5" />
           <Nav.Link onClick={logOut}>
             <DoorClosed size={18} className="mr-4" /> Log out

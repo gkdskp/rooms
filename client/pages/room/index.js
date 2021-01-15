@@ -5,49 +5,33 @@ import RoomsTable from '../../components/table/RoomsTable';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Check, Pencil } from 'react-bootstrap-icons';
+import { useState, useEffect } from 'react';
 
 export default function Room() {
-	const rooms = {
-		count: 20,
-		rows: [
-			{
-				id: "A31",
-				capacity: 3,
-				occupancy_rules: "B-Tech S3, B-Tech S5, B-Tech S6",
-				current_students: "Name1, Name2, Name3"
-			},
-			{
-				id: "A32",
-				capacity: 3,
-				occupancy_rules: "B-Tech S3, B-Tech S5, B-Tech S6",
-				current_students: "Name1, Name2, Name3"
-			},
-			{
-				id: "A33",
-				capacity: 3,
-				occupancy_rules: "B-Tech S3, B-Tech S5, B-Tech S6",
-				current_students: "Name1, Name2, Name3"
-			},
-			{
-				id: "A34",
-				capacity: 3,
-				occupancy_rules: "B-Tech S3, B-Tech S5, B-Tech S6",
-				current_students: "Name1, Name2, Name3"
-			},
-			{
-				id: "A35",
-				capacity: 3,
-				occupancy_rules: "B-Tech S3, B-Tech S5, B-Tech S6",
-				current_students: "Name1, Name2, Name3"
-			},
-			{
-				id: "A36",
-				capacity: 3,
-				occupancy_rules: "B-Tech S3, B-Tech S5, B-Tech S6",
-				current_students: "Name1, Name2, Name3"
-			},
-		],
-	}
+	const [rooms, setRooms] = useState({ count: 0, rows: [] });
+	const [filteredList, setFilterList] = useState({ count: 0, rows: [] });
+	const [filters, setFilter] = useState("Block A");
+
+	useState(() => {
+		fetch('http://localhost:4000/warden/rooms/all', {method: "POST"})
+			.then(res => res.json())
+			.then(json => {
+				json = json.map(record => {
+					record.students = record.students.join(", ");
+					record.rules = record.rules.join(", ");
+					return record;
+				});
+				setRooms({
+					count: 20,
+					rows: json
+				})
+			})
+	}, []);
+
+	useEffect(() => {
+		console.log("Hi");
+		setFilterList({ rows: rooms.rows.filter(room => room.no[0] === filters[filters.length-1]), count: 20})
+	}, [rooms, filters])
 
 	const BLOCK_LIST = ["Block A", "Block B", "Block C", "Block D"];
 
@@ -62,6 +46,8 @@ export default function Room() {
 					<Form.Control
 						as="select"
 						size="sm"
+						value={filters}
+						onChange={e => setFilter(e.target.value)}
 					>
 						{BLOCK_LIST.map((block) => (
 							<option>{block}</option>
@@ -78,7 +64,7 @@ export default function Room() {
 						<Pencil size={18} /> Batch Edit Block
               </Button>
 				</Link>
-				<RoomsTable rooms={rooms.rows} count={rooms.count} />
+				<RoomsTable rooms={filteredList.rows} count={filteredList.count} />
 			</MainLayout>
 		</div>
 	)

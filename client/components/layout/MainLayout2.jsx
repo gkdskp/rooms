@@ -11,8 +11,13 @@ export default function MainLayout({children}) {
 		isLoggedIn: "true",
 		hasError: "false",
 		jwt: "dummy",
-		utype: 1
+		utype: 0
 	}
+
+	// useEffect(() => {
+	// // 	if(! authState.isLoggedIn || authState.hasError || ! authState.jwt)
+	// // 		Router.push("/");
+	// // }, [authState]);
 
 	return (
 		<Container className="main-body" fluid>

@@ -4,51 +4,30 @@ import MainLayout from '../../components/layout/MainLayout';
 import LeaveTable from '../../components/table/LeaveTable';
 import Button from 'react-bootstrap/Button';
 import { Plus } from 'react-bootstrap-icons';
+import { useEffect, useState } from 'react';
 
 export default function Leave() {
-	const leaves = {
-		count: 20,
-		rows: [
-			{
-				reason: "Going Home",
-				applied_at: "10/10/2020",
-				from: "22/10/2020",
-				to: "24/10/2020",
-				status: 0
-			},
-			{
-				reason: "Going Home",
-				applied_at: "10/10/2020",
-				from: "22/10/2020",
-				to: "24/10/2020",
-				status: 1
-			},
-			{
-				reason: "Going Home",
-				applied_at: "10/10/2020",
-				from: "22/10/2020",
-				to: "24/10/2020",
-				status: 2
-			},
-			{
-				reason: "Going Home",
-				applied_at: "10/10/2020",
-				from: "22/10/2020",
-				to: "24/10/2020",
-				status: 0
-			},
-			{
-				reason: "Going Home",
-				applied_at: "10/10/2020",
-				from: "22/10/2020",
-				to: "24/10/2020",
-				status: 0
-			}
-		].map(leave => {
-			leave.status = leave.status == 0 ? "Accepted": leave.status == 1? "Declined": "Waiting Response";
-			return leave;
-		}),
-	}
+	const [leaves, setLeaves] = useState({
+		count: 0,
+		rows: []
+	});
+	const status = ["Waiting Response", "Accepted", "Rejected"]
+	useEffect(() => {
+		fetch('http://localhost:4000/leave/user', { method: "POST" })
+			.then(res => res.json())
+			.then(json => {
+				json = json.map((json) => {
+					json.status = status[json.status]
+					json.applied_at = json.createdAt
+					json.applicant = json.Student?.User?.full_name
+					return json
+				})
+				setLeaves({
+					count: json.length,
+					rows: json
+				})
+			})
+	}, []);
 
 	return (
 		<div>
@@ -59,7 +38,7 @@ export default function Leave() {
 		<MainLayout>
 			<h1 className="my-3">Leave</h1>
 			<Link href="/leave/new">
-              <Button variant="primary" className="mb-3" type="submit">
+              <Button variant="primary" className="mb-3">
 				<Plus size={18} /> Apply
               </Button>
             </Link>

@@ -16,7 +16,7 @@ WardenController.addFee = (req, res) => {
 			return;
 		}
 
-		res.json({"success": true});
+		res.json({message: "Success"});
 	}).catch((_) => {
 		console.error(_);
 		res.status(400).json({"error": "UnknownError"});

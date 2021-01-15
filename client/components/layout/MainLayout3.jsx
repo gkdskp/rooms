@@ -14,6 +14,11 @@ export default function MainLayout({children}) {
 		utype: 1
 	}
 
+	// useEffect(() => {
+	// // 	if(! authState.isLoggedIn || authState.hasError || ! authState.jwt)
+	// // 		Router.push("/");
+	// // }, [authState]);
+
 	return (
 		<Container className="main-body" fluid>
 			{authState.utype == 0? <SideBar />: <WardenSideBar />}

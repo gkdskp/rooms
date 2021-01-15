@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import MainLayout from '../../components/layout/MainLayout';
+import MainLayout from '../../../components/layout/MainLayout';
 import Button from 'react-bootstrap/Button';
 import { Form } from "react-bootstrap";
 // import { useRouter } from 'next/router';
@@ -10,20 +10,20 @@ import { useState } from 'react';
 
 export default function LeaveApplication() {
 	const [reason, setReason] = useState("");
-	const [from, setFrom] = useState(new Date());
+	const [fee, setFee] = useState(0);
 	const [to, setTo] = useState(new Date());
 
 	const submitLeave = () => {
 		console.log(JSON.stringify({
-			"from": from,
-			"to": to,
-			"reason": reason
+			"fee": fee,
+			"due": to,
+			"title": reason
 		}))
-		fetch('http://localhost:4000/leave/add', {
+		fetch('http://localhost:4000/fee/add', {
 			method: "POST", body: JSON.stringify({
-				"from": from,
-				"to": to,
-				"reason": reason
+				"fee": fee,
+				"due": to,
+				"title": reason
 			}),
 			headers: {
 				"Content-Type": "application/json"
@@ -31,25 +31,25 @@ export default function LeaveApplication() {
 		})
 			.then(res => res.json())
 			.then(json => {
-				Router.push('/leave');
+				Router.push('/warden/fee');
 			})
 	}
 
 	return (
 		<div>
 			<Head>
-				<title>Leave Application | rooms</title>
+				<title>Add Fee | rooms</title>
 			</Head>
 			<MainLayout>
-				<h1>Apply for Leave</h1>
+				<h1>Add Fee</h1>
 				<Form>
 					<Form.Group controlId="exampleForm.ControlInput1">
-						<Form.Label>Reason</Form.Label>
+						<Form.Label>Title</Form.Label>
 						<Form.Control type="text" value={reason} onChange={e => setReason(e.target.value)} />
 					</Form.Group>
-					<Form.Group controlId="exampleForm.ControlTextarea1">
-						<Form.Label>From</Form.Label><br />
-						<DatePicker selected={from} onChange={e => setFrom(e)} />
+					<Form.Group controlId="exampleForm.ControlInput1">
+						<Form.Label>Fee</Form.Label>
+						<Form.Control type="text" value={fee} onChange={e => setFee(e.target.value)} />
 					</Form.Group>
 					<Form.Group controlId="exampleForm.ControlTextarea1">
 						<Form.Label>To</Form.Label><br />

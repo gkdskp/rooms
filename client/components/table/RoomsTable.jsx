@@ -3,7 +3,7 @@ import Pagination from "react-bootstrap/Pagination";
 import {Pencil} from "react-bootstrap-icons";
 
 export default function RoomsTable({ rooms, count, offset, setOffset }) {
-  const LABELS = Object.keys(rooms[0]);
+  const LABELS = ["no", "beds", "rules", "students"]
 
   return (
     <div>
@@ -32,7 +32,7 @@ export default function RoomsTable({ rooms, count, offset, setOffset }) {
 
 
       <Pagination size="md">
-        {Array.from(Array(Math.floor(count / 5)).keys()).map((index) => (
+        {Array.from(Array(Math.floor(count / 20)).keys()).map((index) => (
           <Pagination.Item
             key={index}
             active={index == offset}

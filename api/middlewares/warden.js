@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
 		return;
 	}
 
-	db.user.findOne({where: {id: decoded.id.id}}).then(user => {
+	db.User.findOne({where: {id: decoded.id.id}}).then(user => {
 		// TODO: Check if user is an warden
 		if(! user || user.leave_at) {
 			res.status(403).json({"error": "NoSuchUser"});

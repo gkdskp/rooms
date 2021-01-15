@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 module.exports = sequelize => {
-	const User = sequelize.define('user', {
+	const User = sequelize.define('User', {
 		id: {
 			type: DataTypes.INTEGER,
 			primaryKey: true,
@@ -39,6 +39,12 @@ module.exports = sequelize => {
 			allowNull: false
 		}
 	});
+
+	User.associate = (models) => {
+		models.User.hasOne(models.Student, {
+			foreignKey: 'id'
+		});
+	}
 
 	return User;
 }

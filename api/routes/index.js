@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const authRouter = require('./auth');
 const wardenRouter = require('./warden');
+const leaveRouter = require('./leave');
+const studentRouter = require('./student');
+const feeRouter = require('./fee');
 const {WardenMiddleware} = require('../middlewares');
 
 /**
@@ -17,6 +20,9 @@ router.get('/', (req, res) => {
 });
 
 router.use('/auth', authRouter);
-router.use('/warden', WardenMiddleware, wardenRouter);
+router.use('/warden', wardenRouter);
+router.use('/student', WardenMiddleware, studentRouter);
+router.use('/leave', leaveRouter);
+router.use('/fee', feeRouter);
 
 module.exports = router;

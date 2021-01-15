@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const AuthController = require('../endpoints/auth');
+const db = require('../models');
+const { WardenMiddleware } = require('../middlewares');
 
 /**
  * @api {post} /auth/register Register
@@ -17,7 +19,7 @@ const AuthController = require('../endpoints/auth');
  * @apiError InvalidRequest The params used is invalid
  * @apiError UnknownError Unknown error occured
  */
-router.post('/register', AuthController.register);
+// router.post('/register', AuthController.register);
 
 /**
  * @api {post} /auth/login Log In

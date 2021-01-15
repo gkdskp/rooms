@@ -4,7 +4,7 @@ import {Pencil} from "react-bootstrap-icons";
 import {Trash} from "react-bootstrap-icons";
 
 export default function StudentsTable({ students, count, offset, setOffset }) {
-  const LABELS = ["name", "address", "phone", "semester", "room"];
+  const LABELS = ["full_name", "email", "semester", "room"];
 
   return (
     <div>
@@ -19,9 +19,9 @@ export default function StudentsTable({ students, count, offset, setOffset }) {
         </thead>
         <tbody>
           {students.map(student => (
-            <tr key={student.name}>
+            <tr key={student.full_name}>
               {LABELS.map((label) => (
-                <td key={`${student.name} ${label}`}>{student[label].replace("\n", ",")}</td>
+                <td key={`${student.full_name} ${label}`}>{student[label]}</td>
               ))}
 			  <td style={{ fontWeight: "bold" }}>
 				<Pencil /> Edit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -34,7 +34,7 @@ export default function StudentsTable({ students, count, offset, setOffset }) {
 
 
       <Pagination size="md">
-        {Array.from(Array(Math.floor(count / 5)).keys()).map((index) => (
+        {Array.from(Array(Math.floor(count / 20)).keys()).map((index) => (
           <Pagination.Item
             key={index}
             active={index == offset}
