@@ -97,7 +97,7 @@ router.post('/:id/pay', studentMiddleware,  async (req, res) => {
 	res.json({ message: "Success" });
 })
 
-router.post('/:id/delete', studentMiddleware,  async (req, res) => {
+router.post('/:id/delete',  async (req, res) => {
 	const id = parseInt(req.params.id, 10);
 	await db.fee.destroy({
 		where: { id: id }

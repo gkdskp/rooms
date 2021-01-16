@@ -6,12 +6,15 @@ import { Form } from "react-bootstrap";
 import Router from 'next/router';
 import { Check2 } from 'react-bootstrap-icons';
 import DatePicker from 'react-datepicker';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../auth';
+
 
 export default function LeaveApplication() {
 	const [reason, setReason] = useState("");
 	const [from, setFrom] = useState(new Date());
 	const [to, setTo] = useState(new Date());
+	const [authState, dispatch] = useContext(AuthContext);
 
 	const submitLeave = () => {
 		console.log(JSON.stringify({
@@ -21,6 +24,7 @@ export default function LeaveApplication() {
 		}))
 		fetch('http://localhost:4000/leave/add', {
 			method: "POST", body: JSON.stringify({
+				"access_token": authState.jwt,
 				"from": from,
 				"to": to,
 				"reason": reason

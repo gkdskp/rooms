@@ -47,7 +47,7 @@ AuthController.login = (req, res) => {
 		return;
 	}
 
-	db.User.findOne({ where: { email: email, password } }).then(User => {
+	db.User.findOne({ where: { email, password } }).then(User => {
 		if (!User) {
 			res.status(403).json({ "error": "InvalidEmail" });
 			return;
@@ -57,7 +57,7 @@ AuthController.login = (req, res) => {
 			process.env.JWT_SECRET
 		);
 
-		res.status(200).json({ access_token });
+		res.status(200).json({ access_token, utype: User.utype });
 	});
 }
 

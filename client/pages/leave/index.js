@@ -4,16 +4,19 @@ import MainLayout from '../../components/layout/MainLayout';
 import LeaveTable from '../../components/table/LeaveTable';
 import Button from 'react-bootstrap/Button';
 import { Plus } from 'react-bootstrap-icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { AuthContext } from '../auth';
 
 export default function Leave() {
+	const [authState, dispatch] = useContext(AuthContext);
+
 	const [leaves, setLeaves] = useState({
 		count: 0,
 		rows: []
 	});
 	const status = ["Waiting Response", "Accepted", "Rejected"]
 	useEffect(() => {
-		fetch('http://localhost:4000/leave/user', { method: "POST" })
+		fetch('http://localhost:4000/leave/user', { method: "POST", body: JSON.stringify({"access_token": authState.jwt}), headers: {"Content-Type": "application/json"} })
 			.then(res => res.json())
 			.then(json => {
 				json = json.map((json) => {

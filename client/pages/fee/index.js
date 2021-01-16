@@ -2,14 +2,17 @@ import CardColumns from "react-bootstrap/CardColumns";
 import MainLayout from "../../components/layout/MainLayout";
 import FeeCard from "../../components/cards/FeeCard";
 import PaidFeeTable from "../../components/table/PaidFeeTable";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from '../auth';
 
 export default function Fee() {
 	const [dueFee, setDueFee] = useState([]);
 	const [paidFee, setPaidFee] = useState([]);
+	const [authState, dispatch] = useContext(AuthContext);
 
 	useEffect(() => {
-		fetch('http://localhost:4000/fee/user', { method: "POST" })
+		console.log(authState);
+		fetch('http://localhost:4000/fee/user', { method: "POST", body: JSON.stringify({"access_token": authState.jwt}), headers: {"Content-Type": "application/json"} })
 			.then(req => req.json())
 			.then(json => {
 				setDueFee(json.due_fee);
@@ -21,11 +24,11 @@ export default function Fee() {
 	}, []);
 
 	const payfee = (id) => {
-		fetch('http://localhost:4000/fee/' + id + '/pay', { method: "POST" })
+		fetch('http://localhost:4000/fee/' + id + '/pay', { method: "POST", body: JSON.stringify({"access_token": authState.jwt}), headers: {"Content-Type": "application/json"}})
 			.then(res => res.json())
 			.then(json => {
 				if (json.message === "Success") {
-					fetch('http://localhost:4000/fee/user', { method: "POST" })
+					fetch('http://localhost:4000/fee/user', { method: "POST", body: JSON.stringify({"access_token": authState.jwt}), headers: {"Content-Type": "application/json"} })
 						.then(req => req.json())
 						.then(json => {
 							setDueFee(json.due_fee);
@@ -35,7 +38,7 @@ export default function Fee() {
 							}));
 						})
 				} else {
-					fetch('http://localhost:4000/fee/user', { method: "POST" })
+					fetch('http://localhost:4000/fee/user', { method: "POST", body: JSON.stringify({"access_token": authState.jwt}), headers: {"Content-Type": "application/json"} })
 						.then(req => req.json())
 						.then(json => {
 							setDueFee(json.due_fee);
